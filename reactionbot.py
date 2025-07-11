@@ -62,7 +62,7 @@ sent = []
 
 
 async def send_reaction(client: Client, message: types.Message) -> None:
-    """Handler for sending reactions"""
+    """Обработчик отправки реакций"""
     emoji = random.choice(EMOJIS)
     try:
         random_sleep_time = random.randint(1, 5)
@@ -80,10 +80,10 @@ async def send_reaction(client: Client, message: types.Message) -> None:
 
 async def send_reaction_from_all_applications(_, message: types.Message) -> None:
     """
-    What is it for? Why not just assign a handler function to each app?
+    Зачем это? Почему не назначить функцию-обработчик для каждого приложения?
 
-    The answer is simple, if several sessions have the same API_ID and API_HASH,
-    only one of those sessions will send a response!
+    Ответ прост: если несколько сессий используют одинаковые API_ID и API_HASH,
+    только одна из них отправит реакцию!
     """
 
     global this_media_id  # sorry :)
@@ -103,7 +103,7 @@ async def send_reaction_from_all_applications(_, message: types.Message) -> None
 
 
 async def get_chat_id(app: Client, chat_link: str) -> Union[int, str, None]:
-    """Return chat_id or None or raise AttributeError"""
+    """Вернуть chat_id или None либо вызвать AttributeError"""
     try:
         chat = await app.get_chat(chat_link)
     except:
@@ -113,7 +113,7 @@ async def get_chat_id(app: Client, chat_link: str) -> Union[int, str, None]:
 
 
 async def is_subscribed(app: Client, chat_link: str) -> bool:
-    """Check if the channel is subscribed"""
+    """Проверить, подписан ли канал"""
     try:
         chat_id = await get_chat_id(app, chat_link)
         if chat_id is None:
@@ -126,7 +126,7 @@ async def is_subscribed(app: Client, chat_link: str) -> bool:
 
 
 async def make_work_dir() -> None:
-    """Create the sessions directory if it does not exist"""
+    """Создать каталог сессий, если он не существует"""
     WORK_DIR.mkdir(exist_ok=True)
     UNNECESSARY_SESSIONS_DIR.mkdir(exist_ok=True)
     BANNED_SESSIONS_DIR.mkdir(exist_ok=True)
@@ -136,12 +136,12 @@ async def make_work_dir() -> None:
 
 
 async def get_config_files_path() -> List[Path]:
-    """Take all the configuration files"""
+    """Получить все файлы конфигурации"""
     return [file for file in WORK_DIR.iterdir() if file.suffix.lower() in CONFIG_FILE_SUFFIXES]
 
 
 async def config_from_ini_file(file_path: Path) -> Dict:
-    """Pull the config from the *.ini file"""
+    """Получить конфигурацию из файла *.ini"""
     config_parser = configparser.ConfigParser()
     config_parser.read(file_path)
     section = config_parser.sections()[0]
@@ -149,13 +149,13 @@ async def config_from_ini_file(file_path: Path) -> Dict:
 
 
 async def config_from_json_file(file_path: Path) -> Dict:
-    """Pull the config from the *.json file"""
+    """Получить конфигурацию из файла *.json"""
     with open(file_path) as f:
         return json.load(f)
 
 
 async def get_config(file_path: Path) -> Dict:
-    """Return the config file to the path"""
+    """Вернуть конфигурацию по пути"""
     config_suffixes = {
         '.ini': config_from_ini_file,
         '.json': config_from_json_file,
@@ -174,8 +174,8 @@ async def get_config(file_path: Path) -> Dict:
 
 async def create_apps(config_files_paths: List[Path]) -> None:
     """
-    Create 'Client' instances from config files.
-    **If there is no name key in the config file, then the config file has the same name as the session!**
+    Создать объекты `Client` из конфигурационных файлов.
+    **Если в файле конфигурации нет ключа name, то имя файла будет именем сессии!**
     """
     for config_file_path in config_files_paths:
         try:
@@ -187,7 +187,7 @@ async def create_apps(config_files_paths: List[Path]) -> None:
 
 
 async def try_convert(session_path: Path, config: Dict) -> bool:
-    """Try to convert the session if the session failed to start in Pyrogram"""
+    """Попробовать конвертировать сессию, если её не удалось запустить в Pyrogram"""
     convertor = SessionConvertor(session_path, config, WORK_DIR)
     try:
         await convertor.convert()
@@ -208,13 +208,13 @@ async def try_convert(session_path: Path, config: Dict) -> bool:
 
 
 def get_tdatas_paths() -> List[Path]:
-    """Get paths to tdata dirs"""
+    """Получить пути к папкам tdata"""
     reserved_dirs = [SUCCESS_CONVERT_TDATA_DIR, UNSUCCESSFUL_CONVERT_TDATA_DIR]
     return [path for path in TDATAS_DIR.iterdir() if path not in reserved_dirs]
 
 
 async def move_session_to_ban_dir(session_path: Path):
-    """Move file to ban dir"""
+    """Переместить файл в папку бана"""
 
     if session_path.exists():
         await move_file(session_path, BANNED_SESSIONS_DIR)
@@ -227,18 +227,18 @@ async def move_session_to_ban_dir(session_path: Path):
 
 
 async def move_file(path_from: Path, path_to: Path):
-    """File or directory relocation"""
+    """Перемещение файла или директории"""
     path_from.rename(path_to.joinpath(path_from.name))
 
 
 async def main():
     """
-    Main function:
-        - Create a directory of sessions if not created.
-        - Take all config files (*.json, *.ini)
-        - Create clients by their config files.
-        - Run through clients, add handler, start and join chat
-        - Wait for completion and finish (infinitely)
+    Главная функция:
+        - Создать каталог сессий, если он не создан.
+        - Взять все конфигурационные файлы (*.json, *.ini)
+        - Создать клиенты по этим файлам конфигурации.
+        - Запустить клиентов, добавить обработчик, стартовать и присоединиться к чату
+        - Ждать завершения (бесконечно)
     """
 
     await make_work_dir()
@@ -314,7 +314,7 @@ async def main():
 
 
 def start():
-    """Let's start"""
+    """Поехали"""
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(main())

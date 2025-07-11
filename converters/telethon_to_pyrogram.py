@@ -22,19 +22,19 @@ class SessionConvertor:
         self.work_dir = work_dir
 
     async def convert(self) -> None:
-        """Main func"""
+        """Основная функция"""
         user_data, session_data = await self.__get_data_telethon_session()
         converted_sting_session = await self.get_converted_sting_session(session_data, user_data)
         await self.move_file_to_unnecessary(self.session_path)
         await self.save_pyrogram_session_file(converted_sting_session, session_data)
 
     async def move_file_to_unnecessary(self, file_path: Path):
-        """Move the unnecessary Telethon session file to the directory with the unnecessary sessions"""
+        """Переместить ненужный файл Telethon-сессии в каталог ненужных сессий"""
         if file_path.exists():
             file_path.rename(self.inappropriate_sessions_path.joinpath(file_path.name))
 
     async def __get_data_telethon_session(self) -> Tuple[User, StringSession]:
-        """Get User and StringSession"""
+        """Получить User и StringSession"""
         async with TelegramClient(self.session_path.with_suffix('').__str__(), self.api_id, self.api_hash) as client:
             user_data = await client.get_me()
             string_session = StringSession.save(client.session)
@@ -43,7 +43,7 @@ class SessionConvertor:
 
     async def save_pyrogram_session_file(self, session_string: Union[str, Coroutine[Any, Any, str]],
                                          session_data: StringSession):
-        """Create session file for pyrogram"""
+        """Создать файл сессии для Pyrogram"""
         async with Client(self.session_path.stem, session_string=session_string, api_id=self.api_id,
                           api_hash=self.api_hash, workdir=self.work_dir.__str__()) as client:
             user_data = await client.get_me()
@@ -60,7 +60,7 @@ class SessionConvertor:
 
     @staticmethod
     async def get_converted_sting_session(session_data: StringSession, user_data: User) -> str:
-        """Convert to sting session"""
+        """Конвертировать в строковую сессию"""
         pack = [
             Storage.SESSION_STRING_FORMAT,
             session_data.dc_id,

@@ -1,7 +1,7 @@
-# If you want to add more than one channel then:
-# CHANNELS = ['movies_from_planet', 'second_channel']
-# https://t.me/movies_from_planet
-CHANNELS = ['movies_from_planet']
+# Если хотите добавить больше одного канала:
+# CHANNELS = ['life_notessss', 'second_channel']
+# https://t.me/life_notessss
+CHANNELS = ['life_notessss']
 
 POSSIBLE_KEY_NAMES = {
     'api_id': ['api_id', 'app_id'],

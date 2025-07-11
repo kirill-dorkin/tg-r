@@ -1,32 +1,34 @@
-## Bot for posting reactions to a Telegram post.
+## Бот для выставления реакций на посты Telegram
 
 <p align="center">
    <a href="https://telegram.org" target="_blank">
       <img width="50" src="https://telegram.org/img/website_icon.svg?4" alt="Telegram">
-   </a>   
+   </a>
    &nbsp;&nbsp;&nbsp;&nbsp;
    <a href="https://github.com/pyrogram/pyrogram" target="_blank">
       <img width="35" src="https://camo.githubusercontent.com/23bd8586f8d0549172b03886618d5337c7c3f655220d81d35ce837b62639419d/68747470733a2f2f646f63732e7079726f6772616d2e6f72672f5f7374617469632f7079726f6772616d2e706e67" alt="Pyrogram">
    </a>
 </p>
 
-Bot puts reaction to new posts in the channel, group or chat. Reactions are set from all connected sessions, as well as automatic subscription to channels from these sessions!
+Бот ставит реакции на новые сообщения в канале, группе или чате. Реакции отправляются со всех подключённых сессий, а аккаунты автоматически подписываются на каналы!
 
-**Good stuff 👍:**
-* Automatically converts `TDATA to a Pyrogram session`.
-* Automatically converts a `Telethon session to a Pyrogram session`.
+По умолчанию бот подписывается и реагирует на канал [@life_notessss](https://t.me/life_notessss). Подпишитесь и оставляйте реакции там!
 
-## Launch Instructions
-1. Create an empty directory
-2. `git clone https://github.com/kanewi11/telegram-reaction-bot.git ./`.
-3. `python3 -m venv venv` or on windows `python -m venv venv`.
-4. `. venv/bin/activate` or on windows `\venv\Scripts\activate`.
-5. `pip install -r requirements.txt` or in windows `pip install -r requirements_win.txt`.
-6. Add your channel name to `config.py`.
-7. **If you plan to use the TDATA converter**, go to `converters/tdata_to_telethon.py` and insert your `API_HASH` and `API_ID` (lines 19 and 20).
-8. `mkdir sessions` and `mkdir tdatas` _(or just create these two folders)_
-9. Add the session file and its configuration file to the `/sessions` directory ( _which we created in step 8_ ) or tdata files to the `/tdatas` folder (**Note the 7th point**). 
-Here is an example:
+**Плюсы 👍:**
+* Автоматически конвертирует `TDATA` в сессию Pyrogram.
+* Автоматически конвертирует `Telethon session` в сессию Pyrogram.
+
+## Инструкция по запуску
+1. Создайте пустую директорию
+2. `git clone https://github.com/kanewi11/telegram-reaction-bot.git ./`
+3. `python3 -m venv venv` или в Windows `python -m venv venv`
+4. `. venv/bin/activate` или в Windows `\venv\Scripts\activate`
+5. `pip install -r requirements.txt` или в Windows `pip install -r requirements_win.txt`
+6. Добавьте имя канала в `config.py` (по умолчанию `life_notessss`).
+7. **Если планируете использовать конвертер TDATA**, откройте `converters/tdata_to_telethon.py` и вставьте свои `API_HASH` и `API_ID` (строки 19 и 20).
+8. `mkdir sessions` и `mkdir tdatas` _(или просто создайте эти две папки)_
+9. Поместите файл сессии и его конфигурационный файл в каталог `/sessions` (созданный в пункте 8) или tdata-файлы в папку `/tdatas` (**смотрите пункт 7**).
+Пример:
 
    ```
       your_dir
@@ -49,8 +51,8 @@ Here is an example:
    ```
 10. `nohup python reactionbot.py &`
 
-## Create a session file manually.
-Create a file `my_account.json` ( _the file name can be anything_ ) in the directory `/sessions` :
+## Создание файла сессии вручную
+Создайте файл `my_account.json` (имя может быть любым) в каталоге `/sessions`:
 ```
 {
     "api_id": "your_api_id",
@@ -58,14 +60,13 @@ Create a file `my_account.json` ( _the file name can be anything_ ) in the direc
     "phone_number": "your_phone_number"
 }
 ```
+После запуска `python reactionbot.py` пройдите авторизацию в консоли, после чего файл сессии будет создан и больше это делать не потребуется.
 
-After `python reactionbot.py`, in the console go through the account authorization steps and that's it, the session file will be created, you don't need to do this for the next times.
+## Где взять `api_id` и `api_hash`?
+[🔗 Нажмите здесь.](https://my.telegram.org/auth)
 
-## Where do I get `api_id` and `api_hash`?
-[🔗 Click me.](https://my.telegram.org/auth)
-
-## Sample configuration file
-You can add more parameters that [pyrogram](https://github.com/pyrogram/pyrogram) supports.
+## Пример конфигурационного файла
+Можно добавить больше параметров, поддерживаемых [pyrogram](https://github.com/pyrogram/pyrogram).
 
 `sessions/888888888.ini`
 ```
@@ -74,13 +75,13 @@ api_id = your_api_id
 api_hash = your_api_hash
 phone_number = 888888888
 
-# optional parameters
+# необязательные параметры
 app_version = '8.8.5'
 device_model = 'Vertu IVERTU'
 system_version = 'Android'
 ```
 
-**OR** ( select one of the variants of the configuration file )
+**ИЛИ** (выберите один из вариантов конфигурационного файла)
 
 `sessions/888888888.json`
 ```

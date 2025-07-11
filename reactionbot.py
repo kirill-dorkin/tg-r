@@ -125,6 +125,24 @@ async def is_subscribed(app: Client, chat_link: str) -> bool:
         return True
 
 
+def has_my_reaction(message: types.Message) -> bool:
+    """Check if the current user already reacted to the message"""
+    if not message.reactions or not message.reactions.reactions:
+        return False
+    for reaction in message.reactions.reactions:
+        if reaction.chosen_order is not None:
+            return True
+    return False
+
+
+async def react_to_unreacted_messages(app: Client, channel: str, limit: int = 20) -> None:
+    """Send reactions to last messages without user's reaction"""
+    async for message in app.get_chat_history(channel, limit=limit):
+        if has_my_reaction(message):
+            continue
+        await send_reaction(app, message)
+
+
 async def make_work_dir() -> None:
     """Создать каталог сессий, если он не существует"""
     WORK_DIR.mkdir(exist_ok=True)
@@ -297,6 +315,7 @@ async def main():
                 await asyncio.sleep(random_sleep_time)
                 await app.join_chat(channel)
                 info.info(f'{app.name} joined - "@{channel}"')
+            await react_to_unreacted_messages(app, channel)
 
     if not apps:
         raise Exception('No apps!')

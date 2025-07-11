@@ -1,15 +1,5 @@
 ## Бот для выставления реакций на посты Telegram
 
-<p align="center">
-   <a href="https://telegram.org" target="_blank">
-      <img width="50" src="https://telegram.org/img/website_icon.svg?4" alt="Telegram">
-   </a>
-   &nbsp;&nbsp;&nbsp;&nbsp;
-   <a href="https://github.com/pyrogram/pyrogram" target="_blank">
-      <img width="35" src="https://camo.githubusercontent.com/23bd8586f8d0549172b03886618d5337c7c3f655220d81d35ce837b62639419d/68747470733a2f2f646f63732e7079726f6772616d2e6f72672f5f7374617469632f7079726f6772616d2e706e67" alt="Pyrogram">
-   </a>
-</p>
-
 Бот ставит реакции на новые сообщения в канале, группе или чате. Реакции отправляются со всех подключённых сессий, а аккаунты автоматически подписываются на каналы!
 
 По умолчанию бот подписывается и реагирует на канал [@life_notessss](https://t.me/life_notessss). Подпишитесь и оставляйте реакции там!
